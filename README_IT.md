@@ -12,21 +12,21 @@ Il punteggio finale è calcolato nel seguente modo:
 Il giocatore controlla la barra utilizzando il joystick.
 
 Note
---------
-* Per ridurre la dimensione del codice le parole chiave **print** e **poke** sono state sostituire dalle loro forme BASIC abbreviete (**?** and **pO**)
-* Il codice è scritto utilizzando l'IDE "CBM .prg Studio". Il codice contiene alcune particolri sequenze di controllo, come {clear}, {white}, ... Dopo aver caricato il file prg con un emulatore o su hardware reale e possibile visualizzare il programma con il comando LIST e vedere i caratteri originali che sostituiscono le sequenze di controllo
+-------
+* Per ridurre la dimensione del codice le parole chiave **print** e **poke** sono state sostituite dalle loro forme BASIC abbreviete (**?** e **pO**).
+* Il codice è scritto utilizzando l'IDE "CBM .prg Studio". Il codice contiene alcune particolri sequenze di controllo, come {clear}, {white}, ... Dopo aver caricato il file prg con un emulatore o su hardware reale è possibile visualizzare il programma con il comando LIST e vedere i caratteri originali che sostituiscono le sequenze di controllo.
 
-Note per a competizione
-----------------------------
+Note per la competizione
+---------------------------
 * Il file breakvic_joy.bas è il sorgente per la compezione. I file breakvic.prg e breakvic_joy.prg sono generati da questo file sorgente.
 
 Problemi noti
 ----------------
 * Il colore della palla cambia quando la palla è in una locazione dello schermo precedentemente occupata da un blocco
-* Le coordinate x,y della palla sono sempre incremntate/decrementate di 1, solo quando la palla colpisce la barra del giovatore la coordinata x è incremntata/decrementata di 2 per simulare un effetto velocità
+* Le coordinate x,y della palla sono sempre incremntate/decrementate di 1, solo quando la palla colpisce la barra del giocatore la coordinata x è incremntata/decrementata di 2 per simulare un effetto velocità
 
 Commenti al codice
------------------------
+---------------------
 La linea 10 inizializza il volume del suono (poke 36878,15) e il colore del bordo e dello sfondo dello schermo (poke 36879,12), dopo pulische lo schermo e imposta a bianco il colore dei caratteri. In questa linea vengono inizializzate alcune variabili:
 * **x, y**: le coordinate della palla
 * **dx,dy**: i valori utilizzati per incrementare/decrementare x e y
@@ -73,7 +73,7 @@ La linea 93 controlla se la palla colpisce un blocco. Se la palla colpisce un bl
 
 >93 ifpeek(7680+y\*22+x)=102thengosub130
 
-Se la palla colpisce il bordo inferiore dello schermo ma non la barra del giocatore allora vien decrementato il punteggio del giocatore.
+Se la palla colpisce il bordo inferiore dello schermo ma non la barra del giocatore allora viene decrementato il punteggio del giocatore.
 
 > 94 ify=21andnot(peek(7680+(y+1)\*22+x))=160thent=t-100
 
@@ -81,7 +81,7 @@ Se il numero dei blocchi è uguale a 0 allora vai alla linea 150 (dove il gioco 
 
 > 97 ifm=0thengosub150
 
-La linea 100 disegna la palla sulle coordinate x,y e vai all'inizio del ciclo del gioco (linea 30).
+La linea 100 disegna la palla sulle coordinate x,y e ritorna all'inizio del ciclo del gioco (linea 30).
 
 > 100 poke7680+y\*22+x,81:goto30
 
