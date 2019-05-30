@@ -1,8 +1,8 @@
 10 pO36878,15:pO36879,12:?"{clear}{white}":x=10:y=21:dx=-1:dy=-1:bx=10:c=7727:p=38447:v=1
 20 t=300:m=75:fori=1to15:pOc+i,102:pOp+i,3:nexti:c=c+44:p=p+44:ifc<7944goto20 
 30 poke8164+bx,160:poke8164+bx+1,160:poke7680+y*22+x,32
-40 j=peek(37151):if(jand16)=0andbx>0thengoto110
-50 poke37154,127:j=peek(37152):poke37154,255:if(jand128)=0andbx<20thengoto120
+40 getb$:ifb$="z"andbx>0thengoto110
+50 ifb$="x"and bx<20 thengoto120
 60 poke36874,0:x=x+dx*v:y=y+dy:ifx<=0orx>=21orpeek(7680+y*22+x)=102thendx=-dx
 80 poke36875,0:ify=0ory=21orpeek(7680+y*22+x)=102thendy=-dy
 90 ifx<0thenx=0
