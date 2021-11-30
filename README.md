@@ -6,10 +6,10 @@ The project goal is to insert in only 20 lines full gameplay, sounds, and graphi
 For the graphics, only PETSCII characters are used. The gameplay consists of breaking all the blocks on the screen. The game ends with a final score when the player destroys all the blocks.
 The score is computed as:
 * 300 points at the begin of the game
-* -100 points when the ball hits the lower border of the screen outside the player bar
-* +100 points when the ball breaks a block or hits the player bar
+* -100 points when the ball hits the lower border of the screen outside the player paddle
+* +100 points when the ball breaks a block or hits the player paddle
 
-The player can control the bar by using the joystick.
+The player can control the paddle by using the joystick.
 
 Notes
 --------
@@ -24,14 +24,14 @@ Notes for the competition
 Issues
 ---------
 * The color of the ball changes when the ball is on a screen location previously occupied by a block
-* The x,y coordinates of the ball are always incremented/decremented by 1, only when the ball hits the player bar the x coordinate is incremented/decremented by 2
+* The x,y coordinates of the ball are always incremented/decremented by 1, only when the ball hits the player paddle the x coordinate is incremented/decremented by 2
 
 Comments to the code
 -----------------------
 Line 10 initializes the sound volume (poke 36878,15) and the screen color (poke 36879,12), then it clears the screen and sets the character color to white. Some variables are initialized:
 * **x, y**: the ball coordinates
 * **dx,dy**: the values used to increment/decrement x and y
-* **bx**: the x coordinate of the player bar
+* **bx**: the x coordinate of the player paddle
 * **c**: the position in the screen memory where the first block is inserted
 * **p**: as c but it points to the color memory
 * **v**: the ball velocity
@@ -42,11 +42,11 @@ Line 20 initializes some variables: **t** (the player score) and **m** (the numb
 
 > 20 t=300:m=75:fori=1to15:pOc+i,102:pOp+i,3:nexti:c=c+44:p=p+44:ifc<7944goto20
 
-Line 30 draws the player bar (character 160) on the last row of the screen, the length of the bar is two characters. Moreover, the space (code 32) is written on the ball coordinates (poke7680+y\*22+x,32) for deleting the previous ball on the screen.
+Line 30 draws the player paddle (character 160) on the last row of the screen, the length of the paddle is two characters. Moreover, the space (code 32) is written on the ball coordinates (poke7680+y\*22+x,32) for deleting the previous ball on the screen.
 
 > 30 poke8164+bx,160:poke8164+bx+1,160:poke7680+y\*22+x,32
 
-Line 40 and 50 report standard basic code for reading the joystick. If **left** is detected and **bx>0** then the bar is moved on the left by **goto** line 110. Line 50 detects the **right** and if **bx<20** it moves the bar on the right by **goto** line 120
+Line 40 and 50 report standard basic code for reading the joystick. If **left** is detected and **bx>0** then the paddle is moved on the left by **goto** line 110. Line 50 detects the **right** and if **bx<20** it moves the paddle on the right by **goto** line 120
 
 > 40 j=peek(37151):if(jand16)=0andbx>0thengoto110
 
@@ -66,7 +66,7 @@ Line 90 and 91 check the x coordinate. This control is necessary because when th
 
 >91 ifx>21thenx=21
 
-Line 92 checks if the ball hits the player bar. If the ball hits the bar **gosub** to line 140.
+Line 92 checks if the ball hits the player paddle. If the ball hits the paddle **gosub** to line 140.
 
 >92 ify=21andx>bx-2andx<bx+3thengosub140
 
@@ -74,7 +74,7 @@ Line 93 checks if the ball hits a block. If the ball hits a block **gosub** to l
 
 >93 ifpeek(7680+y\*22+x)=102thengosub130
 
-If the ball hits the lower border of the screen but not the player bar then it decreases the score.
+If the ball hits the lower border of the screen but not the player paddle then it decreases the score.
 
 > 94 ify=21andnot(peek(7680+(y+1)\*22+x))=160thent=t-100
 
@@ -86,7 +86,7 @@ Line 100 draws the ball and **goto** to the start of the game cycle (line 30).
 
 > 100 poke7680+y\*22+x,81:goto30
 
-Lines 110 and 120 are executed when the player uses the joystick (see lines 40 and 50) for moving the player bar.
+Lines 110 and 120 are executed when the player uses the joystick (see lines 40 and 50) for moving the player paddle.
 
 > 110 poke8164+bx,32:poke8164+bx+1,32:bx=bx-1:goto60
 
@@ -96,7 +96,7 @@ Line 130 is executed when the ball hits a block (see line 92). The line plays th
 
 > 130 poke36874,135:v=1:t=t+100:m=m-1:return
 
-Line 140 is executed when the ball hits the player bar (see line 93). The line plays the voice 2 of the VIC and modifies the ball velocity.
+Line 140 is executed when the ball hits the player paddle (see line 93). The line plays the voice 2 of the VIC and modifies the ball velocity.
 
 > 140 poke36875,135:v=2:return
 
